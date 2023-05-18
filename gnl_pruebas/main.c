@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: imontero <imontero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/17 12:12:54 by imontero          #+#    #+#             */
-/*   Updated: 2023/05/18 18:01:56 by imontero         ###   ########.fr       */
+/*   Created: 2023/05/18 09:56:04 by imontero          #+#    #+#             */
+/*   Updated: 2023/05/18 12:01:06 by imontero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "get_next_line.h"
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
+int	main(void)
+{
+	/*int		fd;
+	char	*gnl;
+	
+	fd = open("text3.txt", O_RDONLY);
+	gnl = get_next_line(fd);	
+	printf("%s\n", gnl);	
+	free(gnl);
+	close(fd);
+	return (0);*/
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 2
-#   endif
-
-char	*get_next_line(int fd);
-size_t	ft_strlen(const char *str);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-
-#endif
+	char	*a = "";
+	char	*b = "hello";
+	
+	
+}
