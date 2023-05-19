@@ -40,22 +40,29 @@ size_t	ft_strlen(const char *str)
 
 int	main(void)
 {
-	/*int	fd;
-	char	*buf;
+	int	fd;
+	char	*buf[BUFFER_SIZE];
+	int	rd = 0;
 	
 	fd = open("text3.txt", O_RDONLY);
-	printf("%d\n", fd);
-	read(fd, buf, BUFFER_SIZE);
-	printf("%s\n", buf);
-	read(fd, buf, BUFFER_SIZE);
-	printf("%s\n", buf);
+	//printf("%d\n", fd);
+	rd = read(fd, buf, BUFFER_SIZE);
+	printf("%d\n", rd);
+	rd = read(fd, buf, BUFFER_SIZE);
+	printf("%d\n", rd);
+	rd = read(fd, buf, BUFFER_SIZE);
+	printf("%d\n", rd);
+	rd = read(fd, buf, BUFFER_SIZE);
+	printf("%d\n", rd);
+	rd = read(fd, buf, BUFFER_SIZE);
+	printf("%d\n", rd);
+	rd = read(fd, buf, BUFFER_SIZE);
+	printf("%d\n", rd);
 	close(fd);
-	return (0);*/
+	return (0);
 
-	char	*a = "";
-	char	*b = "hello";
-	
-	a = ft_strjoin(a, b);
-	printf("%s\n", a);
+/*	char	*a = "";
+	char	*b = "hello";*/
+		
 	return (0);
 }

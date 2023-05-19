@@ -6,7 +6,7 @@
 /*   By: imontero <imontero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:22:29 by imontero          #+#    #+#             */
-/*   Updated: 2023/05/18 19:31:35 by imontero         ###   ########.fr       */
+/*   Updated: 2023/05/19 19:25:11 by imontero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,20 +101,21 @@ char	*get_next_line(int fd)
 	char			*line;
 	char			*temprest;
 	int				i;
+	
 		
 	if (!store)
 		store = "";
 	i = 0;
 	if (fd < 0)
 		return (NULL);
-	while (read(fd, buf, BUFFER_SIZE) > 0)
+	while (read(fd, buf, BUFFER_SIZE) > 0 || store[i])
 	{
 		buf[BUFFER_SIZE] = '\0';
 		store = ft_strjoin(store, buf);
 		//printf("aaaaaa %s\n", store);
 		while (store[i])
 		{
-			if (ft_strchr(store, '\n'))
+			if (store[i] == '\n')
 			{
 				line = ft_substr(store, 0, i + 1);
 				temprest = ft_substr(store, i + 1, ft_strlen(store));
@@ -126,6 +127,7 @@ char	*get_next_line(int fd)
 		i++;	
 		}
 	}
+	return (NULL);
 }
 
 int	main(void)
@@ -138,13 +140,13 @@ int	main(void)
 	
 	fd = open("text3.txt", O_RDONLY);
 	gnl1 = get_next_line(fd);	
-	printf("Linea: (%s)", gnl1);
+	printf("Linea: %s", gnl1);
 	gnl2 = get_next_line(fd);	
-	printf("Linea: (%s)", gnl2);
+	printf("Linea: %s", gnl2);
 	gnl3 = get_next_line(fd);	
-	printf("Linea: (%s)", gnl3);
+	printf("Linea: %s", gnl3);
 	gnl4 = get_next_line(fd);	
-	printf("Linea: (%s)", gnl4);	
+	printf("Linea: %s", gnl4);	
 	free(gnl1);
 	free(gnl2);
 	free(gnl3);
