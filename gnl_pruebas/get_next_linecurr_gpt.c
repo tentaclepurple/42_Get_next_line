@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -72,7 +73,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	if (!s)
 		return (NULL);
-	if (start > ft_strlen(s))
+	if (start >= ft_strlen(s))
 	{
 		sub = malloc(1);
 		if (!sub)
@@ -117,7 +118,6 @@ char	*get_next_line(int fd)
 		if (rd < 0)
 		{
 			free(store);
-			store = NULL;
 			return (NULL);
 		}
 		buff[rd] = '\0';
@@ -155,7 +155,6 @@ char	*get_next_line(int fd)
 		return (line);
 	}
 	free(store);
-	store = NULL;
 	return (NULL);
 }
 
@@ -168,19 +167,18 @@ int	main(void)
 	char	*gnl3;
 	char	*gnl4;*/
 	
-	fd1 = open("read_error.txt", O_RDONLY);
+	fd1 = open("text3.txt", O_RDONLY);
 	
-	gnl1 = get_next_line(5);
+	gnl1 = get_next_line(fd1);
 	while(gnl1)
 	{
 		printf("%s", gnl1);
 		free(gnl1);
-		gnl1 = get_next_line(5);
+		gnl1 = get_next_line(fd1);
 	}
 	free(gnl1);
-	gnl1 = get_next_line(5);
+	gnl1 = get_next_line(fd1);
 	printf("%s", gnl1);
 	free(gnl1);
 	close(fd1);
-	return(0);
 }

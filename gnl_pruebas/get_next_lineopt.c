@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 3
+#endif
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -82,7 +85,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	if (len > ft_strlen(s) - start) 
 		len = ft_strlen(s) - start;
-	sub = (char *)malloc((1 + len) * sizeof(char));
+	sub = (char *)malloc(1 + len * sizeof(char));
 	if (!sub)
 		return (NULL);
 	sub[len] = '\0';
@@ -103,30 +106,24 @@ char	*get_next_line(int fd)
 	int				i;
 	ssize_t			rd;
 	
-	if (!store)
+		
+	if (!store) 
 	{
 		store = malloc(1);
+		if (!store)
+			return (NULL);
 		*store = '\0';
 	}
+		
+	
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	rd = 1;
 	while (ft_strchr(store, '\n') == NULL && rd != 0)
 	{
 		rd = read(fd, buff, BUFFER_SIZE);
-		if (rd < 0)
-		{
-			free(store);
-			store = NULL;
-			return (NULL);
-		}
 		buff[rd] = '\0';
-		temprest = ft_substr(store, 0, ft_strlen(store));
-		free(store);
-		store = NULL;
 		store = ft_strjoin(temprest, buff);
-		free(temprest);
-		temprest = NULL;
 	}
 	i = 0;
 	if (ft_strchr(store, '\n'))
@@ -136,12 +133,10 @@ char	*get_next_line(int fd)
 			if (store[i] == '\n')
 			{
 				line = ft_substr(store, 0, i + 1);
-				temprest = ft_substr(store, i + 1, ft_strlen(store) - i - 1);
+				temprest = ft_substr(store, i + 1, ft_strlen(store) - i + 1);
 				free (store);
-				store = NULL;
 				store = ft_substr(temprest, 0, ft_strlen(temprest));
 				free (temprest);
-				temprest = NULL;
 				return (line);
 			}
 		i++;	
@@ -151,36 +146,70 @@ char	*get_next_line(int fd)
 	{
 		line = ft_substr(store, 0, ft_strlen(store));
 		free(store);
-		store = NULL;
 		return (line);
 	}
-	free(store);
-	store = NULL;
 	return (NULL);
 }
 
 int	main(void)
 {
-	int		fd1;
-	
+	/*int		fd1;
+	int		fd2;*/
+	int		fd;
+
 	char	*gnl1;
-	/*char	*gnl2;
+	char	*gnl2;
 	char	*gnl3;
-	char	*gnl4;*/
+	char	*gnl4;
 	
-	fd1 = open("read_error.txt", O_RDONLY);
+	/*fd1 = open("text3.txt", O_RDONLY);
 	
-	gnl1 = get_next_line(5);
+	gnl1 = get_next_line(fd1);
 	while(gnl1)
 	{
 		printf("%s", gnl1);
 		free(gnl1);
-		gnl1 = get_next_line(5);
+		gnl1 = get_next_line(fd);
 	}
 	free(gnl1);
-	gnl1 = get_next_line(5);
+
+	printf("\n----\n");
+
+	close(fd);*/
+/*
+	fd1 = open("text3.txt", O_RDONLY);
+	gnl1 = get_next_line(fd1);
 	printf("%s", gnl1);
 	free(gnl1);
+
+	//close(fd);
+
+	fd2 = open("text1.txt", O_RDONLY);
+	gnl1 = get_next_line(fd2);
+	printf("%s", gnl1);
+	free(gnl1);
+
+	//fd1 = open("text3.txt", O_RDONLY);
+	gnl1 = get_next_line(fd1);
+	printf("%s", gnl1);
+	free(gnl1);
+
 	close(fd1);
-	return(0);
+	close(fd2);
+*/
+	fd = open("text3.txt", O_RDONLY);
+	gnl1 = get_next_line(fd);	
+	printf("Linea 1: %s", gnl1);
+	free(gnl1);
+	gnl2 = get_next_line(fd);
+	printf("Linea 2: %s", gnl2);
+	free(gnl2);
+	gnl3 = get_next_line(fd);
+	printf("Linea 3: %s", gnl3);
+	gnl4 = get_next_line(fd);	
+	printf("Linea 4: %s", gnl4);	
+	free(gnl4);	
+	close(fd);
+	//system("leaks a.out");
+	return (0);
 }

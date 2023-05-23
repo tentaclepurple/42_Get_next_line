@@ -82,7 +82,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	if (len > ft_strlen(s) - start) 
 		len = ft_strlen(s) - start;
-	sub = (char *)malloc((1 + len) * sizeof(char));
+	sub = (char *)malloc(1 + len * sizeof(char));
 	if (!sub)
 		return (NULL);
 	sub[len] = '\0';
@@ -96,7 +96,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 char	*get_next_line(int fd)
 {
-	char			buff[BUFFER_SIZE + 1];
+	char			*buff;
 	static	char	*store;
 	char			*line;
 	char			*temprest;
@@ -111,13 +111,14 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	rd = 1;
+	buff = malloc(BUFFER_SIZE + 1);
 	while (ft_strchr(store, '\n') == NULL && rd != 0)
 	{
 		rd = read(fd, buff, BUFFER_SIZE);
 		if (rd < 0)
 		{
 			free(store);
-			store = NULL;
+			free(buff);
 			return (NULL);
 		}
 		buff[rd] = '\0';
@@ -152,10 +153,10 @@ char	*get_next_line(int fd)
 		line = ft_substr(store, 0, ft_strlen(store));
 		free(store);
 		store = NULL;
+		free(buff);
 		return (line);
 	}
-	free(store);
-	store = NULL;
+	free(buff);
 	return (NULL);
 }
 
@@ -168,19 +169,18 @@ int	main(void)
 	char	*gnl3;
 	char	*gnl4;*/
 	
-	fd1 = open("read_error.txt", O_RDONLY);
+	fd1 = open("text3.txt", O_RDONLY);
 	
-	gnl1 = get_next_line(5);
+	gnl1 = get_next_line(fd1);
 	while(gnl1)
 	{
 		printf("%s", gnl1);
 		free(gnl1);
-		gnl1 = get_next_line(5);
+		gnl1 = get_next_line(fd1);
 	}
 	free(gnl1);
-	gnl1 = get_next_line(5);
+	gnl1 = get_next_line(fd1);
 	printf("%s", gnl1);
 	free(gnl1);
 	close(fd1);
-	return(0);
 }

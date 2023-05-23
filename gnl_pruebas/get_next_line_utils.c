@@ -6,11 +6,29 @@
 /*   By: imontero <imontero@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:22:32 by imontero          #+#    #+#             */
-/*   Updated: 2023/05/18 11:11:52 by imontero         ###   ########.fr       */
+/*   Updated: 2023/05/22 19:55:29 by imontero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*ft_strchr(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i])
+	{
+		if (s[i] == (char) c)
+			return (&((char *)s)[i]);
+		i++;
+	}
+	if (s[i] == (char) c)
+		return (&((char *)s)[i]);
+	return (0);
+}
 
 size_t	ft_strlen(const char *str)
 {

@@ -82,7 +82,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	if (len > ft_strlen(s) - start) 
 		len = ft_strlen(s) - start;
-	sub = (char *)malloc((1 + len) * sizeof(char));
+	sub = (char *)malloc(1 + len * sizeof(char));
 	if (!sub)
 		return (NULL);
 	sub[len] = '\0';
@@ -103,11 +103,14 @@ char	*get_next_line(int fd)
 	int				i;
 	ssize_t			rd;
 	
-	if (!store)
+		
+	if (!store) 
 	{
 		store = malloc(1);
 		*store = '\0';
 	}
+		
+	
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	rd = 1;
@@ -117,7 +120,6 @@ char	*get_next_line(int fd)
 		if (rd < 0)
 		{
 			free(store);
-			store = NULL;
 			return (NULL);
 		}
 		buff[rd] = '\0';
@@ -136,7 +138,7 @@ char	*get_next_line(int fd)
 			if (store[i] == '\n')
 			{
 				line = ft_substr(store, 0, i + 1);
-				temprest = ft_substr(store, i + 1, ft_strlen(store) - i - 1);
+				temprest = ft_substr(store, i + 1, ft_strlen(store) - i + 1);
 				free (store);
 				store = NULL;
 				store = ft_substr(temprest, 0, ft_strlen(temprest));
@@ -154,8 +156,6 @@ char	*get_next_line(int fd)
 		store = NULL;
 		return (line);
 	}
-	free(store);
-	store = NULL;
 	return (NULL);
 }
 
@@ -168,19 +168,18 @@ int	main(void)
 	char	*gnl3;
 	char	*gnl4;*/
 	
-	fd1 = open("read_error.txt", O_RDONLY);
+	fd1 = 5;
 	
-	gnl1 = get_next_line(5);
+	gnl1 = get_next_line(fd1);
 	while(gnl1)
 	{
 		printf("%s", gnl1);
 		free(gnl1);
-		gnl1 = get_next_line(5);
+		gnl1 = get_next_line(fd1);
 	}
 	free(gnl1);
-	gnl1 = get_next_line(5);
+	gnl1 = get_next_line(fd1);
 	printf("%s", gnl1);
 	free(gnl1);
 	close(fd1);
-	return(0);
 }
