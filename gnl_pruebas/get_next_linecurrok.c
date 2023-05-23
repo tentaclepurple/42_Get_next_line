@@ -94,13 +94,55 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (sub);
 }
 
+char	*ft_getlinelast(char *store)
+{
+	char	*line;
+
+	line = ft_substr(store, 0, ft_strlen(store));
+	free(store);
+	store = NULL;
+	return (line);
+}
+
+char	*ft_getlinenl(char *store, char *temprest)
+{
+	int		i;
+	char	*line;
+	
+	i = 0;
+	while (store[i])
+	{
+		if (store[i] == '\n')
+		{
+			line = ft_substr(store, 0, i + 1);
+			temprest = ft_substr(store, i + 1, ft_strlen(store) - i - 1);
+			free (store);
+			store = NULL;
+			store = ft_substr(temprest, 0, ft_strlen(temprest));
+			free (temprest);
+			temprest = NULL;
+			return (line);
+		}
+	i++;
+	}
+}
+
+void	ft_join(char *store, char *temprest, char *buff)
+{
+	buff[rd] = '\0';
+	temprest = ft_substr(store, 0, ft_strlen(store));
+	free(store);
+	store = NULL;
+	store = ft_strjoin(temprest, buff);
+	free(temprest);
+	temprest = NULL;
+}
+
 char	*get_next_line(int fd)
 {
 	char			buff[BUFFER_SIZE + 1];
 	static	char	*store;
-	char			*line;
 	char			*temprest;
-	int				i;
 	ssize_t			rd;
 	
 	if (!store)
@@ -120,40 +162,12 @@ char	*get_next_line(int fd)
 			store = NULL;
 			return (NULL);
 		}
-		buff[rd] = '\0';
-		temprest = ft_substr(store, 0, ft_strlen(store));
-		free(store);
-		store = NULL;
-		store = ft_strjoin(temprest, buff);
-		free(temprest);
-		temprest = NULL;
+		ft_join(store, temprest, buff);
 	}
-	i = 0;
 	if (ft_strchr(store, '\n'))
-	{	
-		while (store[i])
-		{
-			if (store[i] == '\n')
-			{
-				line = ft_substr(store, 0, i + 1);
-				temprest = ft_substr(store, i + 1, ft_strlen(store) - i - 1);
-				free (store);
-				store = NULL;
-				store = ft_substr(temprest, 0, ft_strlen(temprest));
-				free (temprest);
-				temprest = NULL;
-				return (line);
-			}
-		i++;	
-		}
-	}
+		return(ft_getlinenl(store));
 	if (store[i] && rd == 0)
-	{
-		line = ft_substr(store, 0, ft_strlen(store));
-		free(store);
-		store = NULL;
-		return (line);
-	}
+		return(ft_getlinelast);
 	free(store);
 	store = NULL;
 	return (NULL);
